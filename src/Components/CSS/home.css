@@ -1,0 +1,22 @@
+.my-Clock {
+  height: 110px;
+  padding: 4%;
+  border: 2px solid whitesmoke;
+  background-color: #fff123;
+  /* float: right; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#label {
+  font-size: 25px;
+}
+#time {
+  margin: 0px;
+  font-size: 250%;
+}
+.makeStyles-fixedHeight-15 {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}

@@ -12,11 +12,10 @@ import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
 export default function ListItems(props) {
-  //   const handleClick = () => {
-  //     props.history.push("/");
-
-  //     //window.alert("Click");
-  //   };
+  const handleClick = () => {
+    localStorage.removeItem("login");
+    //props.history.push("/");
+  };
 
   return (
     <div>
@@ -33,13 +32,13 @@ export default function ListItems(props) {
         <ListItemText primary="Profile" />
       </ListItem>
       <ListItem button>
-        <Link to="/">
+        <Link to="/" onClick={handleClick}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
         </Link>
         <Link to="/">
-          <ListItemText primary="Logout" />
+          <ListItemText primary="Logout" onClick={handleClick} />
         </Link>
       </ListItem>
     </div>

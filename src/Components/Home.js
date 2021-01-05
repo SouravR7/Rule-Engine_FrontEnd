@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -19,7 +19,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import ListItems from "./ListItem";
+import "./CSS/home.css";
 
 // function Copyright() {
 //   return (
@@ -113,11 +116,45 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 export default function Home(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [time, setTime] = useState(
+    new Date().toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true,
+    })
+  );
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("login")) {
+      // props.history.push("/");
+    }
+    const login = JSON.parse(window.localStorage.getItem("login"));
+    //console.log(login.name);
+    setUsername(login.name);
+
+    const intervalID = setInterval(() => {
+      setTime(
+        new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          hour12: true,
+        })
+      );
+    }, 1000);
+    // return (intervalID) => clearInterval(intervalID);
+  }, [username, time]);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -125,6 +162,8 @@ export default function Home(props) {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const handleButtonClick = () => {};
 
   return (
     <div className={classes.root}>
@@ -172,7 +211,7 @@ export default function Home(props) {
                 <AccountCircleIcon />
               </Badge>
             </IconButton>
-            User
+            {username}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -200,11 +239,33 @@ export default function Home(props) {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}></Paper>
+              <Paper className={fixedHeightPaper}>
+                <TextField
+                  id="outlined-textarea"
+                  label="Message"
+                  placeholder="Message"
+                  variant="outlined"
+                  autoFocus
+                />
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={handleButtonClick}
+                >
+                  Click
+                </Button>
+              </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
+              <Paper className={fixedHeightPaper}>
+                <div id="label">Current Time</div>
+                <div className="my-Clock">
+                  <h3 id="time">{`${time}`}</h3>
+                </div>
+              </Paper>
             </Grid>
           </Grid>
         </Container>
