@@ -56,7 +56,8 @@ export default function Login(props) {
     return true;
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     if (validate()) {
       axios
         .post("http://localhost:7000/api/login", {
