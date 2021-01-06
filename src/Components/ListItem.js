@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import SettingsPowerIcon from "@material-ui/icons/SettingsPower";
+import CreateIcon from "@material-ui/icons/Create";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -29,14 +31,24 @@ export default function ListItems(props) {
       </ListItem>
       <ListItem button>
         <ListItemIcon>
-          <ShoppingCartIcon />
+          <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Profile" />
       </ListItem>
       <ListItem button>
         <Link to="/" onClick={handleClick}>
           <ListItemIcon>
-            <PeopleIcon />
+            <CreateIcon />
+          </ListItemIcon>
+        </Link>
+        <Link to="/">
+          <ListItemText primary="Edit Rules" onClick={handleClick} />
+        </Link>
+      </ListItem>
+      <ListItem button>
+        <Link to="/" onClick={handleClick}>
+          <ListItemIcon>
+            <SettingsPowerIcon />
           </ListItemIcon>
         </Link>
         <Link to="/">
