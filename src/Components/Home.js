@@ -23,6 +23,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ListItems from "./ListItem";
 import "./CSS/home.css";
+import { Redirect, useHistory } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 // function Copyright() {
 //   return (
@@ -122,9 +128,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home(props) {
+  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
+  const [input, setInput] = useState("");
   const [time, setTime] = useState(
     new Date().toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -136,7 +146,9 @@ export default function Home(props) {
 
   useEffect(() => {
     if (!window.localStorage.getItem("login")) {
-      // props.history.push("/");
+      //console.log("Click");
+      history.push("/");
+      return;
     }
     const login = JSON.parse(window.localStorage.getItem("login"));
     //console.log(login.name);
@@ -161,13 +173,55 @@ export default function Home(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const handleButtonClick = () => {};
+  const handleButtonClick = () => {
+    const checkInput = "Good Morning";
+    setDialogOpen(true);
+    let fixed = new Date();
+    fixed.setHours(12, 0, 0, 0);
+
+    let currentTime = new Date();
+
+    if (currentTime - fixed < 0 && checkInput === input) {
+      setMessage(" Good morning");
+      return;
+    }
+    if (currentTime - fixed > 0) {
+      setMessage("Not a Good morning!! Isn't it??");
+
+      return;
+    }
+    if (currentTime - fixed === 0) {
+      setMessage("Hello !! Good morning");
+      return;
+    }
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Hey {username}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {message}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
@@ -246,6 +300,7 @@ export default function Home(props) {
                   placeholder="Message"
                   variant="outlined"
                   autoFocus
+                  onChange={(event) => setInput(event.target.value)}
                 />
 
                 <Button

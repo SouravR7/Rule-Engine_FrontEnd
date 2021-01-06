@@ -10,11 +10,13 @@ import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import Cookies from "js-cookie";
 
 export default function ListItems(props) {
   const handleClick = () => {
     localStorage.removeItem("login");
-    //props.history.push("/");
+    Cookies.remove("rule_engine_email", { path: "" });
+    Cookies.remove("rule_engine_password", { path: "" });
   };
 
   return (

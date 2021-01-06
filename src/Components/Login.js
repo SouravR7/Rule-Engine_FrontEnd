@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,6 +41,18 @@ export default function Login(props) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (
+      Cookies.get("rule_engine_email") &&
+      Cookies.get("rule_engine_password")
+    ) {
+      Cookies.set("rule_engine_email", email, { expires: 7 });
+      Cookies.set("rule_engine_password", password, { expires: 7 });
+      props.history.push("/home");
+    }
+  });
+
   const validate = () => {
     if (!email || !password) {
       window.alert("*Please enter the mandatory fields");
@@ -68,6 +81,8 @@ export default function Login(props) {
           console.log(response.data);
           if (response.status === 200) {
             window.localStorage.setItem("login", JSON.stringify(response.data));
+            Cookies.set("rule_engine_email", email, { expires: 7 });
+            Cookies.set("rule_engine_password", password, { expires: 7 });
             props.history.push("/home");
           } else {
             window.alert(response.data);
