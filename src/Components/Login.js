@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -37,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
+  const history = useHistory();
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
@@ -47,9 +54,9 @@ export default function Login(props) {
       Cookies.get("rule_engine_email") &&
       Cookies.get("rule_engine_password")
     ) {
-      Cookies.set("rule_engine_email", email, { expires: 7 });
-      Cookies.set("rule_engine_password", password, { expires: 7 });
-      props.history.push("/home");
+      // Cookies.set("rule_engine_email", email, { expires: 7 });
+      //Cookies.set("rule_engine_password", password, { expires: 7 });
+      history.push("/home");
     }
   });
 
@@ -84,12 +91,15 @@ export default function Login(props) {
             Cookies.set("rule_engine_email", email, { expires: 7 });
             Cookies.set("rule_engine_password", password, { expires: 7 });
             props.history.push("/home");
-          } else {
-            window.alert(response.data);
           }
+          //else {
+          //console.log(response.data);
+          //window.alert(JSON.stringify(response.data));
+          // }
         })
         .catch((error) => {
           console.log(error);
+          window.alert("Invalid Credintial");
         });
     }
   };

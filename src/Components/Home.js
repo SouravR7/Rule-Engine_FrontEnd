@@ -187,7 +187,7 @@ export default function Home(props) {
     let currentTime = new Date();
 
     if (currentTime - fixed < 0 && checkInput === input) {
-      setMessage(" Good morning");
+      setMessage("Hello!! Good morning");
       return;
     }
     if (currentTime - fixed > 0) {
@@ -196,7 +196,7 @@ export default function Home(props) {
       return;
     }
     if (currentTime - fixed === 0) {
-      setMessage("Hello !! Good morning");
+      setMessage("Hello !! Have a Great Day");
       return;
     }
   };
